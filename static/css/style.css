@@ -1,0 +1,66 @@
+/* Nerfies-style overrides — all heavy lifting is done by Bulma */
+
+body {
+  font-family: 'Noto Sans', sans-serif;
+  font-size: 17px;
+}
+
+.publication-title {
+  font-family: 'Google Sans', sans-serif;
+}
+
+.publication-authors {
+  font-family: 'Google Sans', sans-serif;
+}
+
+.publication-authors a {
+  color: #3273dc;
+}
+
+.publication-authors a:hover {
+  text-decoration: underline;
+}
+
+.publication-links .link-block {
+  margin: 0 4px;
+}
+
+/* Nerfies teaser subtitle */
+.hero.teaser .hero-body {
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+.hero.teaser .subtitle {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #4a4a4a;
+  text-align: justify;
+}
+
+/* Video embed — 16:9 responsive */
+.publication-video {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+}
+
+.publication-video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* BibTeX pre block */
+pre {
+  background: #f5f5f5;
+  padding: 1.25rem 1.5rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
