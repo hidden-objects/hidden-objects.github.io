@@ -213,6 +213,19 @@
         </p>
       </div>
 
+      <!-- Interactive annotations -->
+      <h3 class="title is-4">Interactive Annotation Explorer</h3>
+      <p class="is-size-6 mb-4" style="color:#777;">
+        Hover over any image to reveal its placement annotations.
+        <span style="color:#23d160; font-weight:600;">Green</span> = accepted.
+      </p>
+      <div id="dv-status" role="status" aria-live="polite" class="has-text-centered is-size-7"
+        style="color:#888; margin-bottom:0.75rem;">
+        Loading visualization...
+      </div>
+      <div id="dv-grid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1rem;"></div>
+
+
       <!-- Dataset comparison table -->
       <h3 class="title is-4">Comparison with Existing Datasets</h3>
       <div class="table-container">
@@ -305,20 +318,6 @@
       </div>
 
 
-      <!-- Interactive annotations -->
-      <h3 class="title is-4">Interactive Annotation Explorer</h3>
-      <p class="is-size-6 mb-4" style="color:#777;">
-        Hover over any image to reveal its placement annotations.
-        <span style="color:#23d160; font-weight:600;">Green</span> = accepted &nbsp;·&nbsp;
-        <span style="color:#ff3860; font-weight:600;">Red</span> = rejected.
-      </p>
-      <div id="dv-status" role="status" aria-live="polite" class="has-text-centered is-size-7"
-        style="color:#888; margin-bottom:0.75rem;">
-        Loading visualization...
-      </div>
-      <div id="dv-grid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1rem;"></div>
-
-
       <br>
 
       <!-- Bias visualization -->
@@ -387,9 +386,10 @@
           : ('bg&nbsp;' + entry.bg_id);
         meta.style.cssText = 'font-size:.72rem; color:#9a9a9a; text-align:center; font-family:monospace;';
 
+        const SHOW_BAD_BBOXES = false; // set to true to also reveal rejected (red) boxes
         const allBoxes = [
           ...entry.good_bboxes.map((b) => ({ b, kind: 'good', alpha: 0 })),
-          ...entry.bad_bboxes.map((b) => ({ b, kind: 'bad', alpha: 0 })),
+          ...(SHOW_BAD_BBOXES ? entry.bad_bboxes.map((b) => ({ b, kind: 'bad', alpha: 0 })) : []),
         ];
 
         let mouse = null;
@@ -442,7 +442,7 @@
             if (s.kind === 'good') {
               ctx.strokeStyle = 'rgba(35,209,96,' + (0.94 * a) + ')';
               ctx.fillStyle = 'rgba(35,209,96,' + (0.16 * a) + ')';
-            } else {
+            } else { // bad — only reached when SHOW_BAD_BBOXES is true
               ctx.strokeStyle = 'rgba(255,56,96,' + (0.90 * a) + ')';
               ctx.fillStyle = 'rgba(255,56,96,' + (0.12 * a) + ')';
             }

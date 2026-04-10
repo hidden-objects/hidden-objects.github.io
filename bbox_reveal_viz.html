@@ -70,8 +70,7 @@
       <h2 class="section-title">Object Placement Suitability</h2>
       <p class="section-subtitle">
         Move your mouse over a scene to reveal placement candidates from our pipeline —
-        <span style="color:#23d160; font-weight:600;">green</span> = object detected (conf&nbsp;&gt;&nbsp;0.40) &nbsp;·&nbsp;
-        <span style="color:#ff3860; font-weight:600;">red</span> = not detected
+        <span style="color:#23d160; font-weight:600;">green</span> = object detected (conf&nbsp;&gt;&nbsp;0.40)
       </p>
     </div>
     <div class="viz-grid">
@@ -205,7 +204,7 @@
         });
       }
 
-      drawBboxes(c.bad,  'rgb(255,56,96)',   'rgba(255,56,96,0.12)');
+      // drawBboxes(c.bad,  'rgb(255,56,96)',   'rgba(255,56,96,0.12)');  // uncomment to show rejected (red) boxes
       drawBboxes(c.good, 'rgb(35,209,96)',   'rgba(35,209,96,0.12)');
     }
 
