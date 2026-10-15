@@ -21,6 +21,12 @@ body {
   text-decoration: underline;
 }
 
+.publication-venue {
+  margin-top: 0.75rem;
+  font-family: 'Google Sans', sans-serif;
+  font-weight: 600;
+}
+
 .publication-links .link-block {
   margin: 0 4px;
 }

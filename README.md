@@ -2,6 +2,8 @@
 
 Project page for **HiddenObjects: Scalable Diffusion-Distilled Spatial Priors for Object Placement**.
 
+Accepted to WACV 2027.
+
 Marco Schouten, Ioannis Siglidis, Serge Belongie, Dim P. Papadopoulos  
 Technical University of Denmark · Pioneer Center for AI · University of Copenhagen
 
