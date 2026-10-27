@@ -154,43 +154,6 @@ pre {
   right: 0.5rem;
 }
 
-/* ── Result panels (distillation section) ──────────── */
-.panel-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 1.25rem;
-  margin-top: 2rem;
-}
-
-.result-panel {
-  background: #fff;
-  border: 1px solid #eee;
-  border-radius: 10px;
-  padding: 1.25rem 1.25rem 1rem;
-  display: flex;
-  flex-direction: column;
-}
-
-.result-panel .title {
-  margin-bottom: 0.4rem;
-}
-
-.result-panel .panel-intro {
-  font-size: 0.9rem;
-  color: #555;
-  margin-bottom: 0.75rem;
-}
-
-.result-panel .table-container {
-  margin-bottom: 0.5rem;
-}
-
-.result-panel .panel-note {
-  font-size: 0.8rem;
-  color: #777;
-  margin-top: auto;
-}
-
 /* ── Gallery carousel ───────────────────────────────── */
 .carousel {
   position: relative;
@@ -269,4 +232,27 @@ pre {
   display: block;
   height: 72px;
   width: auto;
+}
+
+/* ── Collapsible full tables ────────────────────────── */
+.full-table {
+  margin: 0.25rem 0 1rem;
+}
+
+.full-table summary {
+  cursor: pointer;
+  color: #3273dc;
+  font-size: 0.9rem;
+}
+
+.full-table summary:hover {
+  text-decoration: underline;
+}
+
+.full-table[open] summary {
+  margin-bottom: 0.5rem;
+}
+
+.stat-card .stat-label strong {
+  color: #363636;
 }
