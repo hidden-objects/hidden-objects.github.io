@@ -22,9 +22,12 @@ body {
 }
 
 .publication-venue {
-  margin-top: 0.75rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
   font-family: 'Google Sans', sans-serif;
-  font-weight: 600;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #363636;
 }
 
 .publication-links .link-block {
@@ -69,4 +72,181 @@ pre {
   overflow-x: auto;
   font-size: 0.85rem;
   line-height: 1.6;
+}
+
+/* ── Stat cards ─────────────────────────────────────── */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 1rem;
+}
+
+.stat-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 1.1rem 0.9rem;
+  text-align: center;
+}
+
+.stat-card .stat-value {
+  font-family: 'Google Sans', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #363636;
+  line-height: 1.1;
+}
+
+.stat-card .stat-label {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 0.35rem;
+}
+
+/* ── Figure captions ────────────────────────────────── */
+.fig-caption {
+  font-size: 0.95rem;
+  color: #555;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.figure-img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  display: block;
+}
+
+/* ── Gallery tabs ───────────────────────────────────── */
+.gallery-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.gallery-tabs button {
+  border: 1px solid #dbdbdb;
+  background: #fff;
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #4a4a4a;
+}
+
+.gallery-tabs button.is-active {
+  background: #363636;
+  border-color: #363636;
+  color: #fff;
+}
+
+/* ── BibTeX copy button ─────────────────────────────── */
+.bibtex-wrap {
+  position: relative;
+}
+
+.bibtex-wrap .copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+
+/* ── Result panels (distillation section) ──────────── */
+.panel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.result-panel {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 1.25rem 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.result-panel .title {
+  margin-bottom: 0.4rem;
+}
+
+.result-panel .panel-intro {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.75rem;
+}
+
+.result-panel .table-container {
+  margin-bottom: 0.5rem;
+}
+
+.result-panel .panel-note {
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: auto;
+}
+
+/* ── Gallery carousel ───────────────────────────────── */
+.carousel {
+  position: relative;
+  outline: none;
+}
+
+.carousel-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  border-radius: 6px;
+}
+
+.carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-slide {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  margin: 0;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+}
+
+.carousel-arrow {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: none;
+  background: rgba(54, 54, 54, 0.75);
+  color: #fff;
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.carousel-arrow:hover {
+  background: rgba(54, 54, 54, 0.95);
+}
+
+.carousel-arrow.prev {
+  left: 0.5rem;
+}
+
+.carousel-arrow.next {
+  right: 0.5rem;
 }

@@ -12,7 +12,7 @@
   <meta property="og:description"
     content="Accepted to WACV 2027. Scalable diffusion-distilled spatial priors for object placement, with 27M placement annotations." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="assets/teaser_full.png" />
+  <meta property="og:image" content="assets/teaser_a.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="HiddenObjects" />
   <meta name="twitter:description"
@@ -23,12 +23,10 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css" />
-  <link rel="stylesheet" href="static/css/style.css" />
+  <link rel="stylesheet" href="static/css/style.css?v=2" />
 </head>
 
 <body>
-
-
 
   <!-- ══ HERO ════════════════════════════════════════════════ -->
   <section class="hero">
@@ -65,7 +63,8 @@
 
             </div>
 
-            <p class="is-size-5 publication-venue">Accepted to WACV 2027</p>
+            <p class="title is-3 publication-title" style="margin-top:1.25rem; margin-bottom:0.75rem;">Accepted to WACV 2027</p>
+
 
             <div class="column has-text-centered">
               <div class="publication-links">
@@ -115,22 +114,31 @@
   <!-- ══ TEASER ══════════════════════════════════════════════ -->
   <section class="hero teaser">
     <div class="hero-body" style="padding-left:0; padding-right:0;">
-      <!-- Full-bleed image — wider than the text column -->
-      <div style="max-width:1400px; margin:0 auto; padding:0 1rem;">
-        <img src="assets/teaser_full.png" alt="Overview of the HiddenObjects pipeline and examples"
-          style="width:100%; display:block; border-radius:6px;" decoding="async" fetchpriority="high" />
+      <!-- Teaser: (a) spatial prior extraction, (b) multi-class priors; flex ratios = aspect ratios so heights match -->
+      <div style="max-width:1400px; margin:0 auto; padding:0 1rem; display:flex; gap:0.75rem; align-items:flex-start;">
+        <figure style="flex:1.384 1 0; margin:0;">
+          <img src="assets/teaser_a.jpg" alt="Spatial prior extraction by inpainting candidate boxes"
+            style="width:100%; display:block; border-radius:6px;" decoding="async" fetchpriority="high" />
+          <figcaption class="fig-caption">(a) Spatial Prior Extraction</figcaption>
+        </figure>
+        <figure style="flex:0.902 1 0; margin:0;">
+          <img src="assets/teaser_b.jpg" alt="Spatial priors for pizza, potted plant, cake and cat"
+            style="width:100%; display:block; border-radius:6px;" decoding="async" fetchpriority="high" />
+          <figcaption class="fig-caption">(b) Multi-class Spatial Priors</figcaption>
+        </figure>
       </div>
       <!-- Caption stays within the normal text width -->
       <div class="container is-max-desktop">
         <h2 class="subtitle has-text-centered" style="margin-top:1rem; padding:0 1.5rem;">
           <strong>Spatial priors for object placement.</strong>
-          Given a background scene, our diffusion-based pipeline densely evaluates candidate
-          bounding boxes across a sliding-window grid:
-          <strong>(i)</strong> semantically plausible locations are inpainted successfully,
-          <strong>(ii)</strong> wrongly inpainted locations are filtered by our verifier, and
-          <strong>(iii)</strong> impossible regions produce no object.
-          The resulting heatmap encodes a ranked, class-conditioned spatial prior over all
-          plausible positions in the scene.
+          (a) We score candidate bounding boxes for object insertion using a diffusion inpainting pipeline. Each
+          location is inpainted and evaluated by three possible outcomes:
+          <strong>(i)</strong> <span style="color:#1a9c1a;">pizza detected</span>,
+          <strong>(ii)</strong> <span style="color:#e08a00;">wrong object</span>, or
+          <strong>(iii)</strong> <span style="color:#2b4ad8;">no object</span>.
+          Plausible placements contribute to the prior.
+          (b) Aggregating predictions across many scenes and object categories produces heatmaps reflecting common
+          compositional patterns in natural scenes.
         </h2>
       </div>
     </div>
@@ -138,28 +146,23 @@
 
 
   <!-- ══ ABSTRACT ════════════════════════════════════════════ -->
-  <section class="section">
+  <section class="section" id="abstract">
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
           <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified">
             <p>
-
-              We propose a method to learn explicit, class-conditioned spatial priors for object placement in natural
-              scenes by distilling the implicit placement knowledge encoded in text-conditioned diffusion models. Prior
-              work relies either on manually annotated data, which is inherently limited in scale, or on
-              inpainting-based object-removal pipelines, whose artifacts promote shortcut learning. To address these
-              limitations, we introduce a fully automated and scalable framework that evaluates dense object placements
-              on high-quality real backgrounds using a diffusion-based inpainting pipeline. With this pipeline, we
-              construct HiddenObjects, a large-scale dataset comprising 27M placement annotations, evaluated
-              across 27k distinct scenes, with ranked bounding box insertions for different images and object
-              categories. Experimental results show that our spatial priors outperform sparse human annotations on a
-              downstream image editing task (3.90 vs. 2.68 VLM-Judge), and significantly surpass existing placement
-              baselines and zero-shot Vision-Language Models for object placement.
-              Furthermore, we distill these priors into a lightweight model for fast and practical inference (230,000×
-              faster). Our dataset and code will be made publicly available upon release.
-
+              We learn explicit, class-conditioned spatial priors for object placement in natural scenes by
+              distilling placement knowledge from text-conditioned diffusion models. Prior methods rely on sparse
+              manual annotations or on inpainting object-removal pipelines, whose artifacts promote shortcut
+              learning. To address these limitations, we propose a scalable pipeline that evaluates dense candidate
+              placements by inserting objects into clean backgrounds. This produces
+              <span style="font-variant:small-caps;">HiddenObjects</span>, a dataset of 27M bounding-box annotations
+              (2M positives) across 27k diverse scenes and object categories. Human evaluators prefer our image
+              editing composites over those guided by sparse annotations in 65.6% of comparisons. We distill the
+              priors into a lightweight placement model that achieves the best accuracy among dedicated baselines
+              and zero-shot vision-language models.
             </p>
           </div>
         </div>
@@ -172,26 +175,30 @@
   <section class="section" style="background:#fafafa; padding-top:2rem; padding-bottom:2rem;">
     <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered">Highlights</h2>
-      <div class="columns is-centered has-text-centered">
-        <div class="column">
-          <p class="title is-2" style="color:#363636; margin-bottom:0.2rem;">27M</p>
-          <p class="is-size-6" style="color:#555;">Placement annotations</p>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-value">27M</div>
+          <div class="stat-label">Placement annotations (2M positives) on 27k Places365 scenes, 50 COCO classes</div>
         </div>
-        <div class="column">
-          <p class="title is-2" style="color:#363636; margin-bottom:0.2rem;">27k</p>
-          <p class="is-size-6" style="color:#555;">Real-world background scenes from Places365</p>
+        <div class="stat-card">
+          <div class="stat-value">87.1%</div>
+          <div class="stat-label">Verifier–human agreement (ROC–AUC 0.931, Cohen's κ = 0.714)</div>
         </div>
-        <div class="column">
-          <p class="title is-2" style="color:#363636; margin-bottom:0.2rem;">50</p>
-          <p class="is-size-6" style="color:#555;">Foreground Object categories from COCO</p>
+        <div class="stat-card">
+          <div class="stat-value">65.6%</div>
+          <div class="stat-label">Human preference for our composites over sparse OPA annotations</div>
         </div>
-        <div class="column">
-          <p class="title is-2" style="color:#363636; margin-bottom:0.2rem;">3.77ms</p>
-          <p class="is-size-6" style="color:#555;">Inference after distillation</p>
+        <div class="stat-card">
+          <div class="stat-value">3.90</div>
+          <div class="stat-label">vs. 2.68 for human annotations (ImgEdit-Judge, 1–5)</div>
         </div>
-        <div class="column">
-          <p class="title is-2" style="color:#363636; margin-bottom:0.2rem;">3.90</p>
-          <p class="is-size-6" style="color:#555;">vs. 2.68 sparse human annotations via ImgEdit-Judge</p>
+        <div class="stat-card">
+          <div class="stat-value">21.0</div>
+          <div class="stat-label">mAP<sub>cls</sub> of our placement model vs. 5.4 for the best baseline</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">3.77 ms</div>
+          <div class="stat-label">Per image after distillation, 230,000× faster than the pipeline</div>
         </div>
       </div>
     </div>
@@ -202,7 +209,7 @@
 
 
   <!-- ══ DATASET ═════════════════════════════════════════════ -->
-  <section class="section">
+  <section class="section" id="dataset">
     <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered">Dataset</h2>
       <div class="content has-text-justified">
@@ -216,7 +223,7 @@
       </div>
 
       <!-- Interactive annotations -->
-      <h3 class="title is-4">Interactive Annotation Explorer</h3>
+      <h3 class="title is-4">Explore the Annotations</h3>
       <p class="is-size-6 mb-4" style="color:#777;">
         Hover over any image to reveal its placement annotations.
         <span style="color:#23d160; font-weight:600;">Green</span> = accepted.
@@ -323,7 +330,7 @@
       <br>
 
       <!-- Bias visualization -->
-      <h3 class="title is-4">Relative Object Size and Distribution of Object Centers</h3>
+      <h3 class="title is-4">Where and How Big Are the Objects?</h3>
       <figure class="image" style="margin-top:1.5rem;">
         <img src="assets/bias.png" alt="Dataset bias visualization" style="width:100%; border-radius:6px;"
           loading="lazy" decoding="async" />
@@ -507,7 +514,7 @@
   </script>
 
   <!-- ══ METHOD ══════════════════════════════════════════════ -->
-  <section class="section" style="background:#fafafa;">
+  <section class="section" id="method" style="background:#fafafa;">
     <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered">Method</h2>
 
@@ -562,16 +569,78 @@
         </p>
       </div>
 
-      <!-- Ranker figure -->
-      <figure class="image" style="margin-top:2rem;">
-        <img src="assets/ranker_details.jpg" alt="Ranker comparison" style="border-radius:6px;" loading="lazy"
-          decoding="async" />
+
+      <!-- Early exit -->
+      <h3 class="title is-4" style="margin-top:2.5rem;">Faster Inpainting with Early Exit</h3>
+      <div class="content">
+        <p>
+          Most candidate boxes end up with a missing or wrong object. The L1 gap between the conditional and
+          unconditional noise predictions after a <em>single</em> denoising step already flags faulty boxes with
+          81% recall. We skip those boxes, leaving only 30% of proposals for full inpainting: a
+          <strong>2.4× speedup</strong> without degrading the prior.
+        </p>
+      </div>
+      <figure>
+        <img src="assets/speedup_distribution.png" alt="Distribution of conditional–unconditional noise gap per denoising step"
+          class="figure-img" loading="lazy" decoding="async" style="background:#fff;" />
+        <img src="assets/speedup_recall.png" alt="Recall versus threshold and time per image"
+          class="figure-img" loading="lazy" decoding="async" style="background:#fff; margin-top:0.75rem;" />
+        <figcaption class="fig-caption">
+          <strong>Speedup analysis.</strong> <strong>Top:</strong> distribution of the conditional–unconditional noise
+          gap for 10,040 inpaintings at different denoising steps
+          (<span style="color:#2e9b2e;">successful</span> vs. <span style="color:#e03030;">failed</span> insertions).
+          <strong>Bottom:</strong> recall versus threshold percentile and versus average time per image, for different
+          numbers of pre-check denoising steps; the dashed <span style="color:#e03030;">red</span> line is the cost of
+          running the first step on every box.
+        </figcaption>
       </figure>
-      <p class="is-size-6 has-text-centered mt-2" style="color:#555;">
-        <strong>Composite Overlay of Inpaintings.</strong> Multiple valid inpaintings are aggregated into a
-        single composite scene. Accepted objects are segmented and overlaid on
-        the source background. Insertions are ordered by preference ranking so the highest
-        ranked object remains unoccluded at the top of the stack.
+    </div>
+  </section>
+
+
+  <!-- ══ HUMAN VALIDATION ═════════════════════════════════════ -->
+  <section class="section" id="validation">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Do Humans Agree with Our Labels?</h2>
+      <div class="content">
+        <p>
+          We audit the pipeline labels on 50 random <span style="font-variant:small-caps;">HiddenObjects</span> test
+          scenes. Annotators see a 3×3 grid with the top-3 verifier-accepted boxes and six verifier-rejected boxes,
+          and pick the three most plausible ones for the target class: 505 responses from 10 annotators,
+          450 distinct boxes, 4,545 box-level judgments.
+        </p>
+      </div>
+      <div class="columns is-vcentered">
+        <div class="column is-7">
+          <img src="assets/human_validation.png" alt="Human validation of placement labels" class="figure-img"
+            loading="lazy" decoding="async" />
+        </div>
+        <div class="column is-5">
+          <div class="stat-grid" style="grid-template-columns:repeat(2,1fr);">
+            <div class="stat-card">
+              <div class="stat-value">0.931</div>
+              <div class="stat-label">ROC–AUC</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">87.1%</div>
+              <div class="stat-label">Accuracy vs. human labels</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">0.714</div>
+              <div class="stat-label">Cohen's κ</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">73.3%</div>
+              <div class="stat-label">Pipeline–human overlap (human–human: 72.5%)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="fig-caption">
+        <strong>(a)</strong> Verifier-accepted boxes receive much higher human acceptance than rejected ones
+        (0.735 vs. 0.133). <strong>(b)</strong> Confusion matrix against thresholded human labels.
+        <strong>(c)</strong> Within verifier-accepted boxes, ImageReward is used for top-<em>k</em> selection, not as a
+        fine-grained plausibility score (ρ<sub>s</sub> = 0.057).
       </p>
     </div>
   </section>
@@ -580,165 +649,112 @@
 
 
   <!-- ══ RESULTS ══════════════════════════════════════════════ -->
-  <section class="section" style="background:#fafafa;">
+  <section class="section" id="results" style="background:#fafafa;">
     <div class="container is-max-desktop">
-      <h2 class="title is-3 has-text-centered">Results</h2>
+      <h2 class="title is-3 has-text-centered">Image Editing Performance</h2>
 
-      <!-- Downstream editing -->
-      <h3 class="title is-4">Annotation Quality via Downstream Image Editing</h3>
       <div class="content">
         <p>
-          We evaluate the annotations via inpainting conditioned on input bounding boxes using
-          <strong>ImgEdit-Judge</strong>
-          (Qwen2.5-VL, scale 1–5) across three axes:
-          Prompt Compliance (PC), Visual Naturalness (VN), and Physical &amp; Detail Coherence (PDC).
+          We inpaint objects at the boxes proposed by each method on 200 <span style="font-variant:small-caps;">HiddenObjects</span>
+          and all 76 OPA test backgrounds (28 shared COCO classes) and score the edits with
+          <strong>ImgEdit-Judge</strong> (Qwen2.5-VL, 1–5). This measures how suitable a box is for
+          diffusion-based insertion.
         </p>
       </div>
 
-      <div class="table-container">
-        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
-          <thead>
-            <tr class="has-background-dark">
-              <th class="has-text-white">Method</th>
-              <th class="has-text-white">Test Set</th>
-              <th class="has-text-white has-text-centered">PC ↑</th>
-              <th class="has-text-white has-text-centered">VN ↑</th>
-              <th class="has-text-white has-text-centered">PDC ↑</th>
-              <th class="has-text-white has-text-centered">Avg ↑</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Raw Background</td>
-              <td>HiddenObjects</td>
-              <td class="has-text-centered">1.04</td>
-              <td class="has-text-centered">1.03</td>
-              <td class="has-text-centered">1.03</td>
-              <td class="has-text-centered">1.04</td>
-            </tr>
-            <tr>
-              <td>Full Mask</td>
-              <td>HiddenObjects</td>
-              <td class="has-text-centered">1.62</td>
-              <td class="has-text-centered">1.60</td>
-              <td class="has-text-centered">1.59</td>
-              <td class="has-text-centered">1.60</td>
-            </tr>
-            <tr>
-              <td>Random BBox</td>
-              <td>HiddenObjects</td>
-              <td class="has-text-centered">2.73</td>
-              <td class="has-text-centered">2.62</td>
-              <td class="has-text-centered">2.62</td>
-              <td class="has-text-centered">2.65</td>
-            </tr>
-            <tr class="has-background-info-light">
-              <td><strong>Ours (Pipeline)</strong></td>
-              <td>HiddenObjects</td>
-              <td class="has-text-centered"><strong>3.83</strong></td>
-              <td class="has-text-centered"><strong>3.63</strong></td>
-              <td class="has-text-centered"><strong>3.63</strong></td>
-              <td class="has-text-centered"><strong>3.69</strong></td>
-            </tr>
-            <tr>
-              <td colspan="6" style="padding:2px; background:#ddd;"></td>
-            </tr>
-            <tr>
-              <td>Raw Background</td>
-              <td>OPA</td>
-              <td class="has-text-centered">1.00</td>
-              <td class="has-text-centered">1.00</td>
-              <td class="has-text-centered">1.00</td>
-              <td class="has-text-centered">1.00</td>
-            </tr>
-            <tr>
-              <td>Full Mask</td>
-              <td>OPA</td>
-              <td class="has-text-centered">1.66</td>
-              <td class="has-text-centered">1.66</td>
-              <td class="has-text-centered">1.66</td>
-              <td class="has-text-centered">1.66</td>
-            </tr>
-            <tr>
-              <td>Human Annotation</td>
-              <td>OPA</td>
-              <td class="has-text-centered">2.72</td>
-              <td class="has-text-centered">2.66</td>
-              <td class="has-text-centered">2.66</td>
-              <td class="has-text-centered">2.68</td>
-            </tr>
-            <tr>
-              <td>Random BBox</td>
-              <td>OPA</td>
-              <td class="has-text-centered">2.97</td>
-              <td class="has-text-centered">2.84</td>
-              <td class="has-text-centered">2.84</td>
-              <td class="has-text-centered">2.89</td>
-            </tr>
-            <tr class="has-background-info-light">
-              <td><strong>Ours (Pipeline)</strong></td>
-              <td>OPA</td>
-              <td class="has-text-centered"><strong>4.05</strong></td>
-              <td class="has-text-centered"><strong>3.83</strong></td>
-              <td class="has-text-centered"><strong>3.83</strong></td>
-              <td class="has-text-centered"><strong>3.90</strong></td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="columns">
+        <div class="column is-7">
+          <div class="table-container">
+            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+              <thead>
+                <tr class="has-background-dark">
+                  <th class="has-text-white">Box source</th>
+                  <th class="has-text-white has-text-centered">HiddenObjects ↑</th>
+                  <th class="has-text-white has-text-centered">OPA ↑</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Raw Background</td><td class="has-text-centered">1.04</td><td class="has-text-centered">1.00</td></tr>
+                <tr><td>Full Mask</td><td class="has-text-centered">1.60</td><td class="has-text-centered">1.66</td></tr>
+                <tr><td>BootPlace</td><td class="has-text-centered">1.17</td><td class="has-text-centered">1.01</td></tr>
+                <tr><td>OPA Human Annotation</td><td class="has-text-centered">–</td><td class="has-text-centered">2.68</td></tr>
+                <tr><td>PlaceNet</td><td class="has-text-centered">2.63</td><td class="has-text-centered">2.94</td></tr>
+                <tr><td>Random Box</td><td class="has-text-centered">2.65</td><td class="has-text-centered">2.89</td></tr>
+                <tr><td>TerseNet</td><td class="has-text-centered">2.99</td><td class="has-text-centered">3.03</td></tr>
+                <tr><td>GracoNet</td><td class="has-text-centered">3.19</td><td class="has-text-centered">3.18</td></tr>
+                <tr><td>Ours (Aesthetic ranker)</td><td class="has-text-centered">3.35</td><td class="has-text-centered">3.51</td></tr>
+                <tr><td>Ours (CLIP ranker)</td><td class="has-text-centered">3.61</td><td class="has-text-centered">3.84</td></tr>
+                <tr class="has-background-info-light"><td><strong>Ours (ImageReward)</strong></td><td class="has-text-centered"><strong>3.69</strong></td><td class="has-text-centered"><strong>3.90</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="column is-5">
+          <div class="stat-grid" style="grid-template-columns:1fr;">
+            <div class="stat-card">
+              <div class="stat-value">65.6%</div>
+              <div class="stat-label">Human preference for composites guided by our priors over sparse OPA annotations
+                (1,055 responses, 15 annotators)</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">−0.08</div>
+              <div class="stat-label">Smallest drop when swapping the ranker: the top-1 box changes in 81–95% of
+                samples, yet every variant still beats human annotations</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <p class="is-size-6 mt-1" style="color:#555;">
-        Our pipeline outperforms all baselines including human annotations
-        (<strong>3.90 vs. 2.68</strong>). Manual placement labels are inherently ambiguous —
-        comparable in quality to random bounding box proposals.
-      </p>
 
       <!-- Qualitative results -->
-      <h3 class="title is-4" style="margin-top:2rem;">Qualitative Results</h3>
-      <figure class="image">
-        <img src="assets/fig_qualitative_eccv.png" alt="Qualitative results" style="width:100%; border-radius:6px;"
-          loading="lazy" decoding="async" />
-      </figure>
-      <p class="is-size-6 has-text-centered mt-2" style="color:#555;">
-        <strong>Qualitative comparison of annotation quality.</strong>
-        Our pipeline produces spatially coherent placements that respect scene geometry, while
-        baselines often place objects in implausible locations or fail to produce realistic composites.
-      </p>
-
+      <h3 class="title is-4" style="margin-top:2rem;">Example Edits</h3>
     </div>
+    <!-- Wider than the text column so the small panels stay readable; click opens full resolution -->
+    <figure style="max-width:1400px; margin:0 auto; padding:0 1rem;">
+      <a href="assets/fig_qualitative_wacv.jpg" target="_blank" rel="noopener">
+        <img src="assets/fig_qualitative_wacv.jpg" alt="Image inpainting with object placement priors" class="figure-img"
+          loading="lazy" decoding="async" />
+      </a>
+      <div class="container is-max-desktop">
+        <figcaption class="fig-caption">
+          <strong>Image inpainting with object placement priors</strong> on OPA and
+          <span style="font-variant:small-caps;">HiddenObjects</span> backgrounds. Dashed boxes show the inpainting
+          region: <span style="color:#00BFFF;">ours</span>, <span style="color:#FF8C00;">OPA annotation</span>,
+          <span style="color:#CC44CC;">random</span>. Scores are ImgEdit-Judge (1–5). Click to open at full resolution.
+        </figcaption>
+      </div>
+    </figure>
   </section>
 
 
   <!-- ══ DISTILLATION ═════════════════════════════════════════ -->
-  <section class="section" style="background:#fafafa;">
+  <section class="section" id="distillation">
     <div class="container is-max-desktop">
-      <h2 class="title is-3 has-text-centered">Distillation</h2>
+      <h2 class="title is-3 has-text-centered">Model Distillation</h2>
       <div class="content">
         <p>
-          We distill our spatial priors into a lightweight transformer that predicts
-          ranked bounding boxes directly from a background image and a text category. The distilled model runs at
-          <strong>3.77 ms/image</strong>, a <strong>230,000×</strong> speedup over the full
-          pipeline, while preserving the quality of the learned priors.
+          We distill the priors into a lightweight transformer that predicts ranked boxes from a background image
+          and an object class. It runs at <strong>3.77 ms/image</strong> with 188.9 MB of GPU memory on an H100,
+          versus 14.49 min and 65.9 GB for the full pipeline: <strong>230,000× faster</strong> and
+          <strong>300× less memory</strong>.
         </p>
       </div>
 
-      <!-- Distilled model figure -->
-      <div style="margin-bottom:1.5rem;">
-        <img src="assets/distilled_model.png" alt="Distilled model architecture"
-          style="width:100%; height:auto; border-radius:6px;" loading="lazy" decoding="async" />
-        <p class="is-size-6 has-text-centered mt-2" style="color:#555;">
-          <strong>Distilled model architecture.</strong>
-          A transformer encoder–decoder processes a background image and a CLIP text
-          embedding for the target category, and directly predicts a set of ranked bounding boxes
-          as the spatial prior.
-        </p>
-      </div>
+      <figure style="margin-bottom:1.5rem;">
+        <img src="assets/distilled_model.png" alt="Distilled model architecture" class="figure-img" loading="lazy"
+          decoding="async" />
+        <figcaption class="fig-caption">
+          <strong>Distilled model architecture.</strong> A transformer encoder–decoder processes the background image
+          and a class embedding and directly predicts a set of ranked bounding boxes.
+        </figcaption>
+      </figure>
 
       <!-- Placement benchmark table -->
-      <h3 class="title is-4" style="margin-top:2rem;">Object Placement Benchmark</h3>
+      <h3 class="title is-4" style="margin-top:2rem;">Placement Accuracy vs. Baselines</h3>
       <div class="content">
         <p>
-          We benchmark the distilled model against zero-shot VLMs and dedicated placement models
-          on the <span style="font-variant:small-caps;">HiddenObjects</span> test set.
+          Evaluation on the <span style="font-variant:small-caps;">HiddenObjects</span> test set (545 image–class
+          samples, 28 classes). mAP<sub>img</sub> is AP@0.50 per image–class sample, averaged over samples;
+          mAP<sub>cls</sub> is PASCAL VOC 11-point AP per class, averaged over classes.
         </p>
       </div>
 
@@ -748,123 +764,211 @@
             <tr class="has-background-dark">
               <th class="has-text-white">Method</th>
               <th class="has-text-white">Train Set</th>
-              <th class="has-text-white has-text-centered">mAP (%)</th>
-              <th class="has-text-white has-text-centered">IoU50@1 (%)</th>
-              <th class="has-text-white has-text-centered">IoU@1 (%)</th>
-              <th class="has-text-white has-text-centered">IoU50@5 (%)</th>
-              <th class="has-text-white has-text-centered">IoU@5 (%)</th>
+              <th class="has-text-white has-text-centered">mAP<sub>img</sub></th>
+              <th class="has-text-white has-text-centered">mAP<sub>cls</sub></th>
+              <th class="has-text-white has-text-centered">IoU50@1</th>
+              <th class="has-text-white has-text-centered">IoU@1</th>
+              <th class="has-text-white has-text-centered">IoU50@5</th>
+              <th class="has-text-white has-text-centered">IoU@5</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td colspan="7" class="has-background-light has-text-weight-semibold is-size-7"
+              <td colspan="8" class="has-background-light has-text-weight-semibold is-size-7"
                 style="letter-spacing:.05em; text-transform:uppercase;">Zero-shot Vision-Language Models</td>
             </tr>
+            <tr><td>Qwen2.5-VL-72B</td><td>—</td><td class="has-text-centered">1.3</td><td class="has-text-centered">2.6</td><td class="has-text-centered">7.9</td><td class="has-text-centered">14.0</td><td class="has-text-centered">12.7</td><td class="has-text-centered">18.8</td></tr>
+            <tr><td>Qwen2.5-VL-7B</td><td>—</td><td class="has-text-centered">1.4</td><td class="has-text-centered">2.2</td><td class="has-text-centered">8.6</td><td class="has-text-centered">13.9</td><td class="has-text-centered">10.1</td><td class="has-text-centered">16.5</td></tr>
+            <tr><td>InternVL3-8B</td><td>—</td><td class="has-text-centered">0.3</td><td class="has-text-centered">0.7</td><td class="has-text-centered">3.3</td><td class="has-text-centered">11.2</td><td class="has-text-centered">9.2</td><td class="has-text-centered">18.7</td></tr>
+            <tr><td>LLaVA-OneVision-7B</td><td>—</td><td class="has-text-centered">1.0</td><td class="has-text-centered">3.0</td><td class="has-text-centered">11.7</td><td class="has-text-centered">20.9</td><td class="has-text-centered">16.3</td><td class="has-text-centered">24.7</td></tr>
             <tr>
-              <td>Qwen2.5-VL-72B</td>
-              <td>—</td>
-              <td class="has-text-centered">1.3</td>
-              <td class="has-text-centered">7.9</td>
-              <td class="has-text-centered">14.0</td>
-              <td class="has-text-centered">12.7</td>
-              <td class="has-text-centered">18.8</td>
-            </tr>
-            <tr>
-              <td>Qwen2.5-VL-7B</td>
-              <td>—</td>
-              <td class="has-text-centered">1.4</td>
-              <td class="has-text-centered">8.6</td>
-              <td class="has-text-centered">13.9</td>
-              <td class="has-text-centered">10.1</td>
-              <td class="has-text-centered">16.5</td>
-            </tr>
-            <tr>
-              <td>InternVL3-8B</td>
-              <td>—</td>
-              <td class="has-text-centered">0.3</td>
-              <td class="has-text-centered">3.3</td>
-              <td class="has-text-centered">11.2</td>
-              <td class="has-text-centered">9.2</td>
-              <td class="has-text-centered">18.7</td>
-            </tr>
-            <tr>
-              <td>LLaVA-OV-7B</td>
-              <td>—</td>
-              <td class="has-text-centered">1.0</td>
-              <td class="has-text-centered">11.7</td>
-              <td class="has-text-centered">20.9</td>
-              <td class="has-text-centered">16.3</td>
-              <td class="has-text-centered">24.7</td>
-            </tr>
-            <tr>
-              <td colspan="7" class="has-background-light has-text-weight-semibold is-size-7"
+              <td colspan="8" class="has-background-light has-text-weight-semibold is-size-7"
                 style="letter-spacing:.05em; text-transform:uppercase;">Dedicated Object Placement Models</td>
             </tr>
+            <tr><td>BootPlace</td><td>Cityscapes</td><td class="has-text-centered">0.1</td><td class="has-text-centered">0.1</td><td class="has-text-centered">0.9</td><td class="has-text-centered">6.0</td><td class="has-text-centered">0.9</td><td class="has-text-centered">6.0</td></tr>
+            <tr><td>TerseNet</td><td>OPA</td><td class="has-text-centered">1.4</td><td class="has-text-centered">4.0</td><td class="has-text-centered">20.9</td><td class="has-text-centered">29.5</td><td class="has-text-centered">20.9</td><td class="has-text-centered">29.5</td></tr>
+            <tr><td>GracoNet</td><td>OPA</td><td class="has-text-centered">2.1</td><td class="has-text-centered">3.9</td><td class="has-text-centered">23.7</td><td class="has-text-centered">35.9</td><td class="has-text-centered">23.7</td><td class="has-text-centered">35.9</td></tr>
+            <tr><td>PlaceNet</td><td>OPA</td><td class="has-text-centered">2.9</td><td class="has-text-centered">5.4</td><td class="has-text-centered">43.5</td><td class="has-text-centered">42.4</td><td class="has-text-centered">43.5</td><td class="has-text-centered">42.4</td></tr>
             <tr>
-              <td>BootPlace</td>
-              <td>Cityscapes</td>
-              <td class="has-text-centered">0.1</td>
-              <td class="has-text-centered">0.9</td>
-              <td class="has-text-centered">6.0</td>
-              <td class="has-text-centered">0.9</td>
-              <td class="has-text-centered">6.0</td>
+              <td colspan="8" class="has-background-light has-text-weight-semibold is-size-7"
+                style="letter-spacing:.05em; text-transform:uppercase;">Ours</td>
             </tr>
-            <tr>
-              <td>TerseNet</td>
-              <td>OPA</td>
-              <td class="has-text-centered">1.4</td>
-              <td class="has-text-centered">20.9</td>
-              <td class="has-text-centered">29.5</td>
-              <td class="has-text-centered">20.9</td>
-              <td class="has-text-centered">29.5</td>
-            </tr>
-            <tr>
-              <td>GracoNet</td>
-              <td>OPA</td>
-              <td class="has-text-centered">2.1</td>
-              <td class="has-text-centered">23.7</td>
-              <td class="has-text-centered">35.9</td>
-              <td class="has-text-centered">23.7</td>
-              <td class="has-text-centered">35.9</td>
-            </tr>
-            <tr>
-              <td>PlaceNet</td>
-              <td>OPA</td>
-              <td class="has-text-centered">2.9</td>
-              <td class="has-text-centered">43.5</td>
-              <td class="has-text-centered">42.4</td>
-              <td class="has-text-centered">43.5</td>
-              <td class="has-text-centered">42.4</td>
-            </tr>
-            <tr>
-              <td>Ours</td>
-              <td>OPA</td>
-              <td class="has-text-centered">28.0</td>
-              <td class="has-text-centered">36.4</td>
-              <td class="has-text-centered">33.0</td>
-              <td class="has-text-centered">51.9</td>
-              <td class="has-text-centered">57.6</td>
-            </tr>
-            <tr class="has-background-info-light">
-              <td><strong>Ours</strong></td>
-              <td><strong>HiddenObjects</strong></td>
-              <td class="has-text-centered"><strong>56.6</strong></td>
-              <td class="has-text-centered"><strong>62.9</strong></td>
-              <td class="has-text-centered"><strong>55.2</strong></td>
-              <td class="has-text-centered"><strong>79.1</strong></td>
-              <td class="has-text-centered"><strong>67.7</strong></td>
-            </tr>
+            <tr><td>Ours</td><td>OPA</td><td class="has-text-centered">28.0</td><td class="has-text-centered">7.8</td><td class="has-text-centered">33.0</td><td class="has-text-centered">36.4</td><td class="has-text-centered">57.6</td><td class="has-text-centered">51.9</td></tr>
+            <tr class="has-background-info-light"><td><strong>Ours</strong></td><td><strong>HiddenObjects</strong></td><td class="has-text-centered"><strong>56.6</strong></td><td class="has-text-centered"><strong>21.0</strong></td><td class="has-text-centered"><strong>62.9</strong></td><td class="has-text-centered"><strong>55.2</strong></td><td class="has-text-centered"><strong>79.1</strong></td><td class="has-text-centered"><strong>67.7</strong></td></tr>
           </tbody>
         </table>
       </div>
       <p class="is-size-6 mt-1" style="color:#555;">
-        Our distilled model outperforms all baselines by a large margin
-        (<strong>56.6% vs. 2.9% mAP</strong>), demonstrating that dense reward-weighted spatial
-        priors are essential for learning robust placement distributions.
+        The same model trained on <span style="font-variant:small-caps;">HiddenObjects</span> instead of OPA nearly
+        triples mAP<sub>cls</sub> (7.8 → 21.0): dense, reward-weighted labels matter, not only the architecture.
       </p>
 
+      <!-- Further evaluation of the distilled model: four panels with a shared look -->
+      <div class="panel-grid">
+        <div class="result-panel">
+          <h3 class="title is-5">Human Preference Study</h3>
+          <p class="panel-intro">Evaluators compare two boxes on the same clean background, without inpainted objects.</p>
+          <div class="table-container">
+            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+              <thead>
+                <tr class="has-background-dark">
+                  <th class="has-text-white">Ours vs.</th>
+                  <th class="has-text-white has-text-centered">Ours ↑</th>
+                  <th class="has-text-white has-text-centered">Tie</th>
+                  <th class="has-text-white has-text-centered">Other</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="has-background-info-light"><td><strong>OPA human annotation</strong></td><td class="has-text-centered"><strong>38.0%</strong></td><td class="has-text-centered">26.6%</td><td class="has-text-centered">35.4%</td></tr>
+                <tr class="has-background-info-light"><td><strong>PlaceNet</strong></td><td class="has-text-centered"><strong>35.0%</strong></td><td class="has-text-centered">50.0%</td><td class="has-text-centered">15.0%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="panel-note">Majority vote per scene: 79 OPA scenes (474 votes) and 20
+            <span style="font-variant:small-caps;">HiddenObjects</span> scenes (120 votes).</p>
+        </div>
+
+        <div class="result-panel">
+          <h3 class="title is-5">Image Editing with Predicted Boxes</h3>
+          <p class="panel-intro">Inpainting at the predicted boxes, scored by ImgEdit-Judge (1–5).</p>
+          <div class="table-container">
+            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+              <thead>
+                <tr class="has-background-dark">
+                  <th class="has-text-white">Box source</th>
+                  <th class="has-text-white has-text-centered">Score ↑</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>OPA annotation</td><td class="has-text-centered">2.68</td></tr>
+                <tr><td>Model trained on OPA</td><td class="has-text-centered">3.35</td></tr>
+                <tr class="has-background-info-light"><td><strong>Model trained on <span style="font-variant:small-caps;">HiddenObjects</span></strong></td><td class="has-text-centered"><strong>3.43</strong></td></tr>
+                <tr><td>Diffusion pipeline annotation</td><td class="has-text-centered">3.90</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="panel-note">The distilled model keeps most of the pipeline's gain over human annotations.</p>
+        </div>
+
+        <div class="result-panel">
+          <h3 class="title is-5">Unseen Object Classes</h3>
+          <p class="panel-intro">With frozen CLIP text embeddings, trained on 28 base classes and tested on 5 unseen ones.</p>
+          <div class="table-container">
+            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+              <thead>
+                <tr class="has-background-dark">
+                  <th class="has-text-white">Setting</th>
+                  <th class="has-text-white">Test</th>
+                  <th class="has-text-white has-text-centered">mAP<sub>img</sub> ↑</th>
+                  <th class="has-text-white has-text-centered">IoU50@1 ↑</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Closed-set</td><td>Base 28</td><td class="has-text-centered">56.6</td><td class="has-text-centered">62.9</td></tr>
+                <tr><td>Open-vocabulary</td><td>Base 28</td><td class="has-text-centered">57.2</td><td class="has-text-centered">66.2</td></tr>
+                <tr class="has-background-info-light"><td><strong>Open-vocabulary</strong></td><td><strong>Novel 5</strong></td><td class="has-text-centered"><strong>42.4</strong></td><td class="has-text-centered"><strong>52.9</strong></td></tr>
+                <tr><td>Fully supervised</td><td>Novel 5</td><td class="has-text-centered">52.8</td><td class="has-text-centered">62.2</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="panel-note">Retains 80.3% of the fully supervised upper bound on unseen classes.</p>
+        </div>
+
+        <div class="result-panel">
+          <h3 class="title is-5">Transfer to a New Benchmark</h3>
+          <p class="panel-intro">Replacing the original boxes of the independent MureCom benchmark with our predictions.</p>
+          <div class="table-container">
+            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+              <thead>
+                <tr class="has-background-dark">
+                  <th class="has-text-white">Box source</th>
+                  <th class="has-text-white has-text-centered">ImgEdit-Judge ↑</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>MureCom original boxes</td><td class="has-text-centered">2.820</td></tr>
+                <tr class="has-background-info-light"><td><strong>Ours</strong></td><td class="has-text-centered"><strong>3.649</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="panel-note">The model transfers to backgrounds outside its training distribution.</p>
+        </div>
+      </div>
     </div>
   </section>
+
+
+  <!-- ══ GALLERY ══════════════════════════════════════════════ -->
+  <section class="section" id="gallery" style="background:#fafafa;">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">More Examples</h2>
+      <p class="has-text-centered is-size-6 mb-4" style="color:#666;">
+        Randomly sampled spatial priors and image-editing results from the appendix.
+        Swipe, use the arrows, or press ← / →.
+      </p>
+      <div class="gallery-tabs" role="tablist"></div>
+      <div class="carousel" tabindex="0" aria-label="Gallery">
+        <button class="carousel-arrow prev" type="button" aria-label="Previous">&#8249;</button>
+        <div class="carousel-track">
+          <figure class="carousel-slide" data-tab="Priors I"><img src="assets/gallery/priors_1.jpg" alt="Spatial priors gallery I" loading="lazy" decoding="async" /><figcaption class="fig-caption">Spatial priors: airplane, apple, bench, bicycle, boat, book, bottle, cake.</figcaption></figure>
+          <figure class="carousel-slide" data-tab="Priors II"><img src="assets/gallery/priors_2.jpg" alt="Spatial priors gallery II" loading="lazy" decoding="async" /><figcaption class="fig-caption">Spatial priors: car, cat, chair, cow, cup, dog, elephant, fire hydrant.</figcaption></figure>
+          <figure class="carousel-slide" data-tab="Priors III"><img src="assets/gallery/priors_3.jpg" alt="Spatial priors gallery III" loading="lazy" decoding="async" /><figcaption class="fig-caption">Spatial priors: horse, keyboard, laptop, motorcycle, person, pizza, potted plant, sandwich.</figcaption></figure>
+          <figure class="carousel-slide" data-tab="Editing I"><img src="assets/gallery/editing_1.jpg" alt="Image editing gallery I" loading="lazy" decoding="async" /><figcaption class="fig-caption">Image editing on OPA backgrounds: airplane, apple, backpack, bed, bench, bicycle, boat, book.</figcaption></figure>
+          <figure class="carousel-slide" data-tab="Editing II"><img src="assets/gallery/editing_2.jpg" alt="Image editing gallery II" loading="lazy" decoding="async" /><figcaption class="fig-caption">Image editing on OPA backgrounds: bottle, cake, car, cat, cell phone, chair, clock, couch.</figcaption></figure>
+          <figure class="carousel-slide" data-tab="Editing III"><img src="assets/gallery/editing_3.jpg" alt="Image editing gallery III" loading="lazy" decoding="async" /><figcaption class="fig-caption">Image editing on OPA backgrounds: cow, cup, dining table, dog, elephant, fire hydrant, fork, handbag.</figcaption></figure>
+          <figure class="carousel-slide" data-tab="Editing IV"><img src="assets/gallery/editing_4.jpg" alt="Image editing gallery IV" loading="lazy" decoding="async" /><figcaption class="fig-caption">Image editing on OPA backgrounds: horse, keyboard, kite, laptop, microwave, motorcycle, orange, parking meter.</figcaption></figure>
+        </div>
+        <button class="carousel-arrow next" type="button" aria-label="Next">&#8250;</button>
+      </div>
+      <p class="carousel-counter has-text-centered is-size-7" style="color:#888;"></p>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      const root = document.querySelector('#gallery .carousel');
+      const track = root.querySelector('.carousel-track');
+      const slides = [...track.querySelectorAll('.carousel-slide')];
+      const tabs = document.querySelector('#gallery .gallery-tabs');
+      const counter = document.querySelector('#gallery .carousel-counter');
+      let current = 0;
+
+      const buttons = slides.map((s, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.textContent = s.dataset.tab;
+        b.addEventListener('click', () => go(i));
+        tabs.appendChild(b);
+        return b;
+      });
+
+      function go(i) {
+        i = (i + slides.length) % slides.length;
+        track.scrollTo({ left: slides[i].offsetLeft - track.offsetLeft, behavior: 'smooth' });
+      }
+
+      function mark(i) {
+        current = i;
+        buttons.forEach((b, j) => b.classList.toggle('is-active', j === i));
+        counter.textContent = (i + 1) + ' / ' + slides.length;
+      }
+
+      // Keep tabs and counter in sync with manual swipes / trackpad scrolling
+      track.addEventListener('scroll', () => {
+        const i = Math.round(track.scrollLeft / track.clientWidth);
+        if (i !== current) mark(i);
+      }, { passive: true });
+
+      root.querySelector('.prev').addEventListener('click', () => go(current - 1));
+      root.querySelector('.next').addEventListener('click', () => go(current + 1));
+      root.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') { e.preventDefault(); go(current - 1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); go(current + 1); }
+      });
+
+      mark(0);
+    })();
+  </script>
 
 
 
@@ -887,7 +991,10 @@
   <section class="section" id="BibTeX" style="background:#fafafa;">
     <div class="container is-max-desktop content">
       <h2 class="title">BibTeX</h2>
-      <pre><code>@misc{schouten2026hiddenobjects,
+      <div class="bibtex-wrap">
+      <button class="button is-small copy-btn" type="button"
+        onclick="navigator.clipboard.writeText(document.getElementById('bibtex').innerText).then(()=>{this.textContent='Copied';setTimeout(()=>{this.textContent='Copy'},1500)})">Copy</button>
+      <pre><code id="bibtex">@misc{schouten2026hiddenobjects,
       title={HiddenObjects: Scalable Diffusion-Distilled Spatial Priors for Object Placement}, 
       author={Marco Schouten and Ioannis Siglidis and Serge Belongie and Dim P. Papadopoulos},
       year={2026},
@@ -896,6 +1003,7 @@
       primaryClass={cs.CV},
       url={https://arxiv.org/abs/2604.10675}, 
 }</code></pre>
+      </div>
     </div>
   </section>
 
