@@ -250,3 +250,23 @@ pre {
 .carousel-arrow.next {
   right: 0.5rem;
 }
+
+/* ── WACV logo badge (official logo is white, so it sits on the conference navy) ── */
+.wacv-badge {
+  display: inline-block;
+  background: #1f2a44;
+  border-radius: 12px;
+  padding: 0.6rem 1.1rem;
+  margin-bottom: 1rem;
+  transition: transform 0.15s ease;
+}
+
+.wacv-badge:hover {
+  transform: translateY(-2px);
+}
+
+.wacv-badge img {
+  display: block;
+  height: 72px;
+  width: auto;
+}
