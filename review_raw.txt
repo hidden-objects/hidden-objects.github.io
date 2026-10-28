@@ -1,0 +1,172 @@
+OpenReview
+.net
+Search articles, authors and reviews...
+Notifications
+Activity
+Tasks
+Marco Schouten 
+back arrowBack to Author Console
+HiddenObjects: Scalable Spatial Prior Extraction for Object Placement from Diffusion Models
+Download PDF
+Marco Schouten, Ioannis Siglidis, Serge Belongie, Dim Papadopoulos 
+18 Aug 2026 (modified: 29 Aug 2026)
+WACV 2027 Conference Round 2 Submission
+Conference Round 2, Senior Area Chairs, Area Chairs, Reviewers, Authors
+Revisions
+CC BY 4.0
+Subject Area: Generative Models & Synthetic Data
+Student Paper: Yes
+Track: Algorithms Track
+Resubmission Flag: Yes
+Round 1 URL: /forum?id=pR6Krt6K7r
+Rebuttal:  pdf
+Abstract:
+We learn explicit, class-conditioned spatial priors for object placement in natural scenes by distilling placement knowledge from text-conditioned diffusion models. Prior methods rely on sparse manual annotations or on inpainting-based object-removal pipelines, whose artifacts promote shortcut learning. To address these limitations we propose scalable pipeline that evaluates dense candidate placements by inserting objects into clean backgrounds. This produces \textsc{HiddenObjects}, a dataset of 27M bounding-box annotations across 27k diverse scenes and object categories. Human evaluation prefer our image editing composites over those guided by sparse annotations in 65.6% of comparisons. Finally, we distill the priors into a lightweight placement model that achieves the best overall accuracy among dedicated baselines and zero-shot vision-language models.
+
+Supplementary Material:  pdf
+Submission Number: 274
+Filter by reply type...
+Filter by author...
+Search keywords...
+
+Sort: Newest First
+4 / 4 replies shown
+Meta Review of Submission274 by Area Chair R6Dn
+Meta Reviewby Area Chair R6Dn06 Oct 2026, 13:05 (modified: 15 Oct 2026, 06:06)Senior Area Chairs, Area Chairs, Program Chairs, Authors, Reviewers SubmittedRevisions
+Metareview:
+The revision substantially strengthens HiddenObjects through human validation, a clean-background placement study, and stronger baselines. The reviewers agree that the scalable dataset and efficient distilled model are useful contributions.
+
+Area chair recommends acceptance. The human audit favors top-ranked positives and randomly sampled negatives, so it does not establish label quality across the full dataset. ImageReward shows little association with human acceptance in the audited sample, and its contribution to distillation is not isolated. Reviewers also raise credible concerns that box size and differences in evaluation protocols may affect the reported downstream gains. The authors should address these points where possible and narrow the claims about reward ranking and downstream superiority in the final version.
+
+Final Recommendation: Accept in round 2
+Official Review - Submission 274
+Official Reviewby Reviewer nXHS26 Sept 2026, 00:31 (modified: 15 Oct 2026, 05:48)Program Chairs, Senior Area Chairs, Area Chairs, Reviewers Submitted, Reviewer nXHS, AuthorsRevisions
+Paper Track: Algorithm
+Paper Summary:
+The paper presents HiddenObjects, a scalable framework for extracting dense, class-conditioned spatial priors for object placement from diffusion models. Instead of constructing placement supervision by removing existing objects, the proposed pipeline inserts candidate objects into clean background images, verifies whether the intended object has been successfully generated, and ranks valid placements using a preference model. This process produces dense positive and negative placement annotations, which are subsequently distilled into a lightweight transformer for efficient object placement prediction. The resulting dataset contains approximately 27M evaluated candidate placements across 27K scene-object pairs. The authors further demonstrate that the extracted priors can improve downstream object insertion quality and that the distilled placement model performs strongly against dedicated placement methods and zero-shot VLM baselines.
+
+Paper Strengths:
+The human validation is stronger. The paper now reports box-level judgments over 450 distinct placements and 4,545 individual box-level annotations, together with accuracy, precision, recall, F1, ROC-AUC, and agreement statistics. The verifier-accepted placements receive substantially higher human acceptance than rejected placements, providing useful evidence that the pseudo-labels capture meaningful info.
+Predicted bounding boxes are directly compared on clean backgrounds without first generating an inserted object. This provides a more direct evaluation of placement plausibility and reduces dependence on the diffusion generation pipeline.
+The paper compares against multiple dedicated placement models, including PlaceNet, TerseNet, GracoNet, and BootPlace, as well as several zero-shot VLMs. The supplementary material also clearly specifies the VLM prompting and evaluation protocol.
+The distilled model is more practically attractive. It reduces the extremely expensive extraction procedure to millisecond-level inference while using much less memory.
+Major Weaknesses:
+The human audit does not fully establish the reliability of the complete positive-label distribution. The added human study is useful, but the sampling protocol appears biased toward high-quality positive examples. For each scene, the authors select the three verifier-accepted placements with the highest ImageReward scores, while the verifier-rejected boxes are uniformly sampled. Therefore, the reported verifier-human agreement mainly validates highly ranked positive samples rather than a representative sample of all verifier-positive annotations. Since the dataset contains approximately 2.1M positive boxes, a random audit of verifier-positive examples, or a stratified evaluation across low-, medium-, and high-reward ranges, would provide a more representative estimate of label quality across the full dataset.
+
+The role of ImageReward as a ranking signal is not fully supported by the new human analysis. An interesting result is that, among verifier-accepted placements, ImageReward has essentially no correlation with human acceptance ((\rho_s=0.057, p=0.49)). This is somewhat surprising because reward ranking is still used during distillation: the model is trained using the top-20 boxes with the highest reward scores, and the reward score is also used to weight the spatial loss. If ImageReward does not reliably rank human placement preference after verifier filtering, it is unclear how much the ranker contributes beyond the verifier itself. A simple ablation comparing reward-ranked supervision against randomly sampled verifier-positive boxes, or removing reward weighting, would help clarify this point. Otherwise, the claims regarding preference-ranked spatial priors should be stated more cautiously.
+
+The independent human evaluation of the distilled model remains relatively small. The clean-background A/B evaluation is a meaningful addition, but the difference against OPA human annotations is small: the proposed model is preferred on 38.0% of scenes, the human annotation on 35.4%, and 26.6% are ties. The PlaceNet comparison contains only 20 scenes, with 35% preference for the proposed model, 15% for PlaceNet, and 50% ties. Given the sample sizes and relatively large number of ties, confidence intervals or statistical significance tests would help support the corresponding comparative claims. This is particularly relevant because the main placement results in Table 4 are still evaluated against HiddenObjects labels generated by the teacher pipeline itself.
+
+Minor Weaknesses:
+The distinction between the approximately 27M evaluated candidate placements and the approximately 2.1M verified positive boxes is now clearer. However, wording such as “27M bounding-box annotations” in the abstract could still be made slightly more explicit, since readers may otherwise interpret all 27M as positive placement annotations.
+Can authors give explicit statement describing which artifacts will be released, e.g., positive/negative annotations, reward scores, model checkpoints, code, and evaluation scripts.
+Round 2 Recommendation: 4: Borderline Accept
+Round 2 Justification:
+The revision addresses most of my main concerns from the previous round, and I think the paper is stronger now.
+
+My first concern was about the reliability of the automatically generated labels. The new box-level human study is helpful, and it gives a better idea of how well the verifier agrees with human judgment, including explicit error statistics. However, the positive samples in this study are the highest-ImageReward placements, rather than randomly sampled verifier-positive boxes. Because of this, I am still not sure the reported numbers are fully representative of the whole positive-label distribution.
+
+My second concern was the partially circular evaluation of the distilled model. The new human preference study on clean backgrounds is a good addition, since it evaluates the predicted placement directly without running the diffusion inpainter. This addresses a large part of my previous concern. The main issue left here is that the evaluation is still relatively small, and the reported preference differences are not accompanied by confidence intervals or significance analysis.
+
+The baseline comparison is also better now. The paper includes stronger dedicated placement baselines and zero-shot VLMs, and the evaluation protocol is explained more clearly. I think this concern is largely addressed. The dataset statistics are also clearer now, especially the distinction between all evaluated candidate boxes and the verified positive boxes.
+
+One additional question from the new experiments is about the role of ImageReward. The paper reports almost no correlation between ImageReward and human acceptance among verifier-approved placements, but reward-based ranking and weighting are still used during training. I think a simple ablation here would help clarify whether ImageReward is really contributing beyond the verifier itself. Overall, most of my previous concerns have been addressed, and the remaining issues are more about how representative the human audit is and how useful the reward-based ranking actually is. I therefore raise my recommendation from Borderline Reject to Borderline Accept.
+
+Confidence Level: 4 - High Confidence: The reviewer has strong expertise in the area. They are highly familiar with the relevant literature and can critically evaluate the paper.
+Review
+Official Reviewby Reviewer xFmE25 Sept 2026, 14:25 (modified: 15 Oct 2026, 05:48)Program Chairs, Senior Area Chairs, Area Chairs, Reviewers Submitted, Reviewer xFmE, AuthorsRevisions
+Paper Track: Algorithm
+Paper Summary:
+The paper proposes a pipeline that extracts class-conditioned object-placement priors through diffusion inpainting, object verification, and preference ranking. The resulting HiddenObjects dataset provides dense placement annotations, which are distilled into a lightweight transformer that predicts placements from a background image and object class.
+
+Paper Strengths:
+By inserting objects rather than removing them, the pipeline avoids introducing removal artifacts into the background images used to train the placement model.
+
+Human evaluators favor composites guided by the extracted priors over those guided by sparse OPA annotations in 65.6% of comparisons. This result supports the downstream editing utility of the extracted priors beyond model-based quality scores.
+
+Major Weaknesses:
+Section 4.2 presents the three accepted boxes with the highest-reward and six randomly sampled rejected boxes per scene. Because annotators must select exactly three placements, their selections measure preference within the displayed set, not whether each placement is plausible on its own. The reported agreement is calculated for this selected subset, while lower-ranked positive annotations are not included in the audit.
+
+In Table 4, the OPA-trained and HiddenObjects-trained variants use the same proposed model, but their training data differ in size, background distribution, and annotation density. The main paper does not report an experiment that varies annotation density while keeping the backgrounds fixed. The contribution of annotation density to the performance gains is therefore not separated from other differences between the datasets.
+
+Tables 2 and 3 evaluate ranking performance and downstream editing quality, but neither isolates the effect of reward weighting on the distilled model. Although the introduction describes dense, reward-weighted priors as essential, the main paper does not report a distillation ablation with and without reward weighting.
+
+Minor Weaknesses:
+Section 5.1 evaluates open-vocabulary placement on five unseen classes, but the main paper does not identify these classes or explain how they were selected. This leaves the category coverage of the open-vocabulary evaluation unclear.
+
+Round 2 Recommendation: 3: Borderline Reject
+Round 2 Justification:
+The paper provides dense placement annotations on unchanged backgrounds, with human evaluation supporting their use in downstream image editing. However, the label audit excludes lower-ranked positive boxes, the training comparison does not isolate annotation density, and the main paper does not separately evaluate reward weighting during distillation. These concerns outweigh the demonstrated benefits of the proposed method. Therefore, the reviewer recommends Borderline Reject.
+
+Confidence Level: 3 - Moderate Confidence: The reviewer is reasonably knowledgeable about the topic. They understand the paper's methodology and results.
+Review
+Official Reviewby Reviewer Qm9m23 Sept 2026, 09:17 (modified: 15 Oct 2026, 05:48)Program Chairs, Senior Area Chairs, Area Chairs, Reviewers Submitted, Reviewer Qm9m, AuthorsRevisions
+Paper Track: Application
+Paper Summary:
+The paper extracts dense, class-conditioned object placement priors by inserting objects rather than removing them. For each Places365 background and target category, a Qwen-Image inpainter with a ControlNet adaptor paints the object into 1004 sliding-window boxes. Grounded-SAM-2 verifies that the object appeared in the requested box and was not already present, and ImageReward scores the verified insertions. Across 27K scene and category pairs this produces HiddenObjects, with 27M scored boxes of which about 2.1M are positives. An early-exit rule based on the gap between conditional and unconditional noise predictions cuts inpainting cost by 2.4 times. The priors are then distilled into a lightweight DETR-style model that runs at 3.77 ms per image.
+
+The revision adds several things. There is a box-level human validation of the verifier labels. The paper now states explicitly that ImgEdit-Judge measures suitability for diffusion insertion rather than plausibility. It also adds a ranker sensitivity analysis, a bare-box human study for the distilled model, and clearer metric definitions in Table 4.
+
+Paper Strengths:
+The core inversion remains clean and well motivated. Inserting into untouched real backgrounds avoids the removal artifacts that let placement models learn shortcuts. Dense positives and negatives per scene fill a real gap in the placement literature.
+
+The rebuilt human validation is the most valuable addition. Verifier-accepted boxes receive a mean human acceptance of 0.735, against 0.133 for rejected boxes. Against thresholded human judgments, this gives an ROC-AUC of 0.931 and a Cohen kappa of 0.714. This is the per-box evidence that was missing in round 1, and it shows the binary labels carry real signal.
+
+The paper now says plainly that ImgEdit-Judge measures suitability for diffusion-based insertion and not ground-truth plausibility, as I requested. The ranker analysis is also candid that ImageReward is not a fine-grained plausibility score.
+
+The bare-box A/B study for the distilled model removes the inpainter from the loop entirely, which addresses the circularity concern shared across reviewers. The authors honestly report rough parity with human annotations rather than claiming a win.
+
+The description of the pipeline no longer says it runs without human intervention, and the manual pairing of categories with scene types is now disclosed in the main text.
+
+The distilled model remains practical, and the early-exit rule is a nice piece of engineering.
+
+Major Weaknesses:
+The downstream editing results appear confounded by box size. In Table 3 on OPA, a random box scores 2.89 on ImgEdit-Judge and PlaceNet scores 2.94, while the human annotations score 2.68. Random boxes drawn with 10 to 90 percent of the image area beat careful human placements. This means the judge rewards something other than placement plausibility, most likely box size, because larger regions give the inpainter room to render a clearly recognizable object. Figure 6 shows the selected boxes are often much larger than the OPA annotations. By construction, positive boxes are those where the inpainter succeeded, which also favors larger regions. Figure 7b confirms the prior avoids small boxes. The 3.90 against 2.68 result and the 65.6 percent human preference therefore likely reflect box size to a large degree. The preference study compares composites from the same inpainter, so the same confound applies there, and the MureCom transfer result is measured with the same judge. The new framing that sparse annotations are weaker targets for diffusion inpainting is technically accurate. It becomes informative only if the comparison controls for size. I would like to see the box area distribution for each method in Table 3, a size-matched comparison, and a human study that asks raters about placement plausibility rather than overall composite quality.
+
+The ranker scores do not track human judgment, which undermines the dense ranked prior. Three pieces of evidence point the same way. Among verified boxes, ImageReward has a Spearman correlation of only 0.057 with human acceptance. In Table 2, ImageReward reaches 57.1 AP against 52.8 for a random ranker. Swapping the ranker changes the top-ranked box in 81 to 95 percent of samples with little downstream effect. Together these suggest that the binary verifier carries the signal and the continuous scores are close to noise. Yet the dataset ships these scores as the prior. The heatmaps in Figures 1, 3, and 4 are reward weighted, the distilled model regresses the reward, and the mAP evaluation ranks predictions by it. The introduction also claims that dense reward-weighted priors are essential. To be fair, the correlation is computed only on top-three boxes sitting around the 98.6th percentile, and a restricted range weakens any correlation. Please report the correlation across the full range of verified boxes. Please also train the distilled model on binary labels alone to show whether the scores add anything. If they do not, the dataset should be framed as dense binary labels with auxiliary scores.
+
+The human audit samples the easiest cases. The audited positives are only the top three boxes by ImageReward per scene, while the dataset holds on average 77.7 positives per scene-category pair. The negatives are six boxes sampled uniformly from roughly 926 rejected boxes. Since the sliding window covers the entire image, most of those negatives are trivially implausible. The reported ROC-AUC and 91.4 percent specificity therefore describe how well the best positives separate from random negatives. They do not describe the noise rate of a typical label. Label noise across the 2.1M positives remains unmeasured. So do hard negatives, meaning rejected boxes adjacent to accepted ones or small boxes the detector missed. The grid design also forces annotators to pick exactly three of nine boxes, with exactly three positives shown. This fixes the base rate and partly predetermines the 73.3 against 72.5 percent overlap comparison. I would like the audit to include randomly sampled positives, hard negatives stratified by distance to accepted boxes and by box size, and free-choice acceptance judged per box.
+
+The placement accuracy comparison remains structurally unfavorable to the baselines. Table 4 is computed on the HiddenObjects test split against pipeline labels. The VLMs and dedicated placement networks each output a single box, so their mAP against dense positives is capped by recall. This is visible in PlaceNet having identical IoU50 at 1 and IoU50 at 5. The same model trained on OPA reaches 28.0 per-image mAP against 2.9 for PlaceNet, yet its IoU50 at 1 is 33.0 against 43.5 for PlaceNet. This shows the mAP gap largely counts proposals. IoU50 at 1 is the fair column. There, the HiddenObjects-trained model reaches 62.9 against 43.5 for PlaceNet, while the same architecture trained on OPA loses to PlaceNet. This supports the dataset as the contribution rather than the model, and the paper should say so directly. How the VLM predictions were elicited is still undescribed. The paper should report the prompt, the coordinate format, the number of boxes requested, and the rate of parsing failures. Two trivial baselines are missing, a random box and an image-agnostic class-mean box. Figure 4 shows strong class-level spatial regularities, so a class-mean box may score well on IoU50 at 1 against dense positives. No placement accuracy is reported on OPA or on a human-audited subset. The 50 audited scenes could serve as that independent test set.
+
+There is still no comparison on the standard OPA benchmark protocols. GracoNet, PlaceNet, TerseNet, and BootPlace all report results under the established OPA evaluation, and meeting them there would let readers calibrate against the existing literature.
+
+Minor Weaknesses:
+The mAP reporting is inconsistent. The text reports 21.0 mAP and a 3.0 VLM peak, which match the per-class column. Table 6 reports 56.6, which matches the per-image column. The Table 4 caption also refers to 545 samples, while the setup describes 504 test images.
+
+The manual pairing of scenes and categories is now disclosed. However, the distilled model's behavior on unpaired combinations, and whether it can abstain when no plausible placement exists, are still not discussed.
+
+At 14.49 minutes per image on an H100, building 27K priors implies roughly 6500 GPU hours. Please state the total compute and whether the reported per-image time includes the early-exit speedup.
+
+The open-vocabulary test covers only five novel classes. Please name them and state whether their backgrounds were also manually paired.
+
+It would be informative to see a stronger learner trained on HiddenObjects, such as a fine-tuned VLM or a generative location model. That would test whether the dense labels benefit models beyond the lightweight detector.
+
+The human studies lack significance tests and the exact question wording. The comparison against PlaceNet uses only 20 scenes and six raters.
+
+The inpainter and the ImgEdit-Judge evaluator both come from the Qwen family, as another reviewer noted. This deserves a sentence of discussion.
+
+In Table 3, the arrows next to the alternative rankers denote drops but point upward.
+
+The paper still does not state what will be released, including the negative labels, the scores, the pairing table, code, and checkpoints.
+
+Round 2 Recommendation: 5: Weak Accept
+Round 2 Justification:
+The revision addressed the most important concern from round 1. The box-level human validation shows the verifier labels agree with people well beyond chance, and the circularity of the judge-based evaluation is now stated openly. The dataset contribution stands.
+
+However, the authors' own tables weaken two headline claims. Random boxes beating human annotations on ImgEdit-Judge suggests the downstream gains largely reflect box size. And the near-zero correlation between ImageReward and human acceptance suggests the ranked part of the dense prior adds little beyond the binary labels.
+
+The audit also covers only top positives and easy negatives, and the placement accuracy table favors multi-proposal methods. None of this is fatal to a dataset paper. However, the claims should be reframed around the validated binary labels and the IoU50 at 1 results, and supported by a size-controlled downstream comparison and an audit of typical labels.
+
+Confidence Level: 5 - Expert: The reviewer is an authority in the specific subfield addressed by the paper. They are extremely confident in their evaluation and understanding of the work.
+About OpenReview
+Contact
+FAQ
+Hosting a Venue
+Sponsors
+Terms of Use / Privacy Policy
+All Venues
+Donate
+News
+OpenReview is a long-term project to advance science through improved peer review with legal nonprofit status. We gratefully acknowledge the support of the OpenReview Sponsors. © 2026 OpenReview
+

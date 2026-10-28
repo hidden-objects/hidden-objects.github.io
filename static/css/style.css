@@ -256,3 +256,28 @@ pre {
 .stat-card .stat-label strong {
   color: #363636;
 }
+
+/* Highlights: all cards on one row on desktop, wrap on small screens */
+.stat-grid.is-single-row {
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.6rem;
+}
+
+.stat-grid.is-single-row .stat-card {
+  padding: 0.9rem 0.5rem;
+}
+
+.stat-grid.is-single-row .stat-value {
+  font-size: 1.5rem;
+  white-space: nowrap;
+}
+
+.stat-grid.is-single-row .stat-label {
+  font-size: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .stat-grid.is-single-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
