@@ -133,7 +133,7 @@
       </div>
       <!-- Caption stays within the normal text width -->
       <div class="container is-max-desktop">
-        <h2 class="subtitle has-text-centered" style="margin-top:1rem; padding:0 1.5rem;">
+        <h2 class="subtitle has-text-left" style="margin-top:1rem; padding:0 1.5rem;">
           <strong>Spatial priors for object placement.</strong>
           (a) We score candidate bounding boxes for object insertion using a diffusion inpainting pipeline. Each
           location is inpainted and evaluated by three possible outcomes:
@@ -150,6 +150,7 @@
 
 
   <!-- ══ ABSTRACT ════════════════════════════════════════════ -->
+  <!--
   <section class="section" id="abstract">
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
@@ -173,9 +174,11 @@
       </div>
     </div>
   </section>
+  -->
 
 
   <!-- ══ HIGHLIGHTS ══════════════════════════════════════════ -->
+  <!--
   <section class="section" style="background:#fafafa; padding-top:2rem; padding-bottom:2rem;">
     <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered">Highlights</h2>
@@ -207,6 +210,7 @@
       </div>
     </div>
   </section>
+  -->
 
 
 
@@ -240,6 +244,7 @@
 
 
       <!-- Dataset comparison table -->
+      <!--
       <h3 class="title is-4">Comparison with Existing Datasets</h3>
       <div class="table-container">
         <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
@@ -332,13 +337,16 @@
 
 
       <br>
+      -->
 
       <!-- Bias visualization -->
+      <!--
       <h3 class="title is-4">Where and How Big Are the Objects?</h3>
       <figure class="image" style="margin-top:1.5rem;">
         <img src="assets/bias.png" alt="Dataset bias visualization" style="width:100%; border-radius:6px;"
           loading="lazy" decoding="async" />
       </figure>
+      -->
 
 
 
@@ -522,9 +530,10 @@
     <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered">Method</h2>
 
-      <!-- Pipeline video — cropped to the diagram band; the source frames are mostly white above and below -->
-      <div style="aspect-ratio:16/4.4; overflow:hidden; border-radius:6px; background:#fff; margin-bottom:1.5rem;">
-        <video autoplay muted loop playsinline style="display:block; width:100%; height:100%; object-fit:cover;">
+      <!-- Pipeline video -->
+      <div style="border-radius:6px; overflow:hidden; background:#fff; margin-bottom:1.5rem;">
+        <video autoplay muted loop playsinline poster="assets/pipeline_diagram.png"
+          style="display:block; width:100%; height:auto;">
           <source src="assets/pipeline.mp4" type="video/mp4" />
         </video>
       </div>
@@ -645,6 +654,7 @@
 
 
   <!-- ══ DISTILLATION ═════════════════════════════════════════ -->
+  <!--
   <section class="section" id="distillation">
     <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered">Model Distillation</h2>
@@ -662,8 +672,10 @@
           <strong>Distilled model.</strong> Image + class embedding → ranked boxes.
         </figcaption>
       </figure>
+  -->
 
       <!-- Placement benchmark: headline number only -->
+  <!--
       <h3 class="title is-4" style="margin-top:2rem;">Placement Accuracy vs. Baselines</h3>
       <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);">
         <div class="stat-card">
@@ -681,6 +693,7 @@
       </div>
     </div>
   </section>
+  -->
 
 
   <!-- ══ GALLERY ══════════════════════════════════════════════ -->
